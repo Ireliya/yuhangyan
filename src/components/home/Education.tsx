@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { withBasePath } from '@/lib/basePath';
 
 export interface EducationItem {
   school: string;
@@ -50,7 +51,7 @@ export default function Education({ items, title }: EducationProps) {
                 {item.logo ? (
                   <div className="relative h-10 w-10 rounded-md overflow-hidden bg-neutral-50 dark:bg-neutral-800 border border-neutral-100 dark:border-neutral-700">
                     <Image
-                      src={item.logo}
+                      src={withBasePath(item.logo)}
                       alt={`${item.school} logo`}
                       fill
                       sizes="40px"
