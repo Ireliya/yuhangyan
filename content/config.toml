@@ -27,11 +27,11 @@ linkedin = "https://www.linkedin.com/in/yuhang-yan-487146283/"
 # Visitor map widget (optional)
 # Example (ClustrMaps):
 # visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=YOUR_TOKEN"></script>"""
-visitor_stats_html = ""
+visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=a9KRY_y4Z6TnXPkxYwWMFD3qvUnk1gvDopSWX9vJBJw&cl=ffffff&w=a"></script>"""
 
 [features]
 # Show a like button on the about page
-enable_likes = true
+enable_likes = false
 
 # Display all subpages on a single page
 enable_one_page_mode = false
