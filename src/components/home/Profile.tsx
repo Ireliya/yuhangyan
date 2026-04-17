@@ -15,6 +15,7 @@ import { Github, Linkedin, Pin } from 'lucide-react';
 import type { SiteConfig } from '@/lib/config';
 import { useMessages } from '@/lib/i18n/useMessages';
 import { withBasePath } from '@/lib/basePath';
+import { useLocaleStore } from '@/lib/stores/localeStore';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -37,6 +38,7 @@ interface ProfileProps {
 
 export default function Profile({ author, social, features, researchInterests }: ProfileProps) {
     const messages = useMessages();
+    const locale = useLocaleStore((state) => state.locale);
     const visitorStatsHtml = (social as Record<string, unknown>)?.visitor_stats_html;
     const visitorContainerRef = useRef<HTMLDivElement | null>(null);
     const visitorHtml = useMemo(() => {
@@ -97,7 +99,7 @@ export default function Profile({ author, social, features, researchInterests }:
         return () => {
             container.innerHTML = '';
         };
-    }, [visitorHtml]);
+    }, [visitorHtml, locale]);
 
     const handleLike = () => {
         const newLikedState = !hasLiked;
