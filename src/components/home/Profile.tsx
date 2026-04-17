@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
@@ -38,6 +38,10 @@ interface ProfileProps {
 export default function Profile({ author, social, features, researchInterests }: ProfileProps) {
     const messages = useMessages();
     const visitorStatsHtml = (social as Record<string, unknown>)?.visitor_stats_html;
+    const visitorContainerRef = useRef<HTMLDivElement | null>(null);
+    const visitorHtml = useMemo(() => {
+        return typeof visitorStatsHtml === 'string' ? visitorStatsHtml.trim() : '';
+    }, [visitorStatsHtml]);
 
     const [hasLiked, setHasLiked] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
@@ -56,6 +60,44 @@ export default function Profile({ author, social, features, researchInterests }:
             setHasLiked(true);
         }
     }, [features.enable_likes]);
+
+    // Re-inject visitor widget scripts on locale switch.
+    // React does not execute <script> tags inserted via innerHTML after the initial page load.
+    useEffect(() => {
+        const container = visitorContainerRef.current;
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        if (!visitorHtml) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = visitorHtml;
+
+        const nodes = Array.from(wrapper.childNodes);
+        for (const node of nodes) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                const el = node as HTMLElement;
+                if (el.tagName.toLowerCase() === 'script') {
+                    const scriptEl = el as HTMLScriptElement;
+                    const newScript = document.createElement('script');
+                    for (const { name, value } of Array.from(scriptEl.attributes)) {
+                        newScript.setAttribute(name, value);
+                    }
+                    if (scriptEl.textContent) {
+                        newScript.textContent = scriptEl.textContent;
+                    }
+                    container.appendChild(newScript);
+                    continue;
+                }
+            }
+            container.appendChild(node.cloneNode(true));
+        }
+
+        return () => {
+            container.innerHTML = '';
+        };
+    }, [visitorHtml]);
 
     const handleLike = () => {
         const newLikedState = !hasLiked;
@@ -359,10 +401,10 @@ export default function Profile({ author, social, features, researchInterests }:
             {/* Visitor Statistics */}
             <div className="mt-6 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 hover:shadow-lg transition-all duration-200">
                 <h3 className="font-semibold text-primary mb-3">{messages.profile.visitorStatistics}</h3>
-                {typeof visitorStatsHtml === 'string' && visitorStatsHtml.trim() ? (
+                {visitorHtml ? (
                     <div
                         className="w-full overflow-hidden rounded-md bg-white/60 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-700"
-                        dangerouslySetInnerHTML={{ __html: visitorStatsHtml }}
+                        ref={visitorContainerRef}
                     />
                 ) : (
                     <div className="text-sm text-neutral-600 dark:text-neutral-500">
