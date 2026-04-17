@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useMessages } from '@/lib/i18n/useMessages';
 
 export interface EducationItem {
   school: string;
@@ -24,8 +23,7 @@ function formatRange(start?: string, end?: string): string {
 }
 
 export default function Education({ items, title }: EducationProps) {
-  const messages = useMessages();
-  const resolvedTitle = title || (messages as any)?.home?.education || 'Education';
+  const resolvedTitle = title || 'Education';
 
   if (!items || items.length === 0) {
     return null;
