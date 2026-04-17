@@ -35,7 +35,7 @@ export default function About({ content, title }: AboutProps) {
                                 {...props}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-accent font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
+                                className="text-accent font-medium underline underline-offset-4 decoration-accent/50 px-1 py-0.5 rounded bg-accent/10 dark:bg-accent/15 transition-all duration-200 hover:bg-accent/15 hover:decoration-accent hover:shadow-sm"
                             />
                         ),
                         blockquote: ({ children }) => (

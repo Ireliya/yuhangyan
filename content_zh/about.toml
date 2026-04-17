@@ -3,9 +3,9 @@ title = "关于我"
 
 [profile]
 research_interests = [
-  "计算物理",
-  "数学原理",
-  "定理证明"
+  "城市智能与空间数据分析",
+  "空间智能",
+  "遥感感知与空间推理"
 ]
 
 [[sections]]
@@ -13,6 +13,12 @@ id = "about"
 type = "markdown"
 source = "bio.md"
 title = "关于我"
+
+[[sections]]
+id = "education"
+type = "education"
+title = "学术背景"
+source = "education.toml"
 
 [[sections]]
 id = "featured_publications"

@@ -36,6 +36,7 @@ interface ProfileProps {
 
 export default function Profile({ author, social, features, researchInterests }: ProfileProps) {
     const messages = useMessages();
+    const visitorStatsHtml = (social as Record<string, unknown>)?.visitor_stats_html;
 
     const [hasLiked, setHasLiked] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
@@ -353,6 +354,29 @@ export default function Profile({ author, social, features, researchInterests }:
                     </div>
                 </div>
             )}
+
+            {/* Visitor Statistics */}
+            <div className="mt-6 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 hover:shadow-lg transition-all duration-200">
+                <h3 className="font-semibold text-primary mb-3">{messages.profile.visitorStatistics}</h3>
+                {typeof visitorStatsHtml === 'string' && visitorStatsHtml.trim() ? (
+                    <div
+                        className="w-full overflow-hidden rounded-md bg-white/60 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-700"
+                        dangerouslySetInnerHTML={{ __html: visitorStatsHtml }}
+                    />
+                ) : (
+                    <div className="text-sm text-neutral-600 dark:text-neutral-500">
+                        {messages.profile.visitorStatisticsHint}{' '}
+                        <a
+                            className="text-accent underline underline-offset-4 decoration-accent/50 hover:decoration-accent"
+                            href="https://clustrmaps.com/how-to/how-to-install-a-wordpress-visitor-counter/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            ClustrMaps
+                        </a>
+                    </div>
+                )}
+            </div>
         </motion.div>
     );
 }

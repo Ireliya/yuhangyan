@@ -1,0 +1,15 @@
+[[education]]
+school = "The Chinese University of Hong Kong, Shenzhen"
+degree = "M.Phil."
+major = "Computer and Information Engineering"
+start = "Sep. 2025"
+end = "Jul. 2027"
+logo = "/education/cuhksz.png"
+
+[[education]]
+school = "University of Liverpool"
+degree = "B.Eng."
+major = "Data Science and Big Data Technology (First Class Honours)"
+start = "Sep. 2021"
+end = "Jul. 2025"
+logo = "/education/xjtlu.png"

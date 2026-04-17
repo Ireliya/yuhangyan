@@ -3,10 +3,9 @@ name: Deploy PRISM to GitHub Pages
 on:
   # Push triggers are disabled by default for template users.
   # Uncomment the lines below to enable automatic deployment on push.
-  # push:
-  #  branches: 
-  #      - main
-  #      - ci
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -29,7 +28,15 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Configure base path for GitHub Pages
+        run: |
+          if [[ "${{ github.event.repository.name }}" == *.github.io ]]; then
+            echo "NEXT_PUBLIC_BASE_PATH=" >> "$GITHUB_ENV"
+          else
+            echo "NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}" >> "$GITHUB_ENV"
+          fi
 
       - name: Build site
         run: npm run build

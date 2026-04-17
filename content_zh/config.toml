@@ -1,19 +1,27 @@
 [site]
-title = "刘嘉乐"
+title = "鄢宇航"
 description = "某某大学博士生个人主页。"
 last_updated = "2025年11月18日"
 
 [author]
-name = "刘嘉乐"
-title = "博士生"
-institution = "某某大学"
+name = "鄢宇航"
+title = "硕士生"
+institution = "香港中文大学（深圳）"
 
 [social]
-location = "城市，国家"
+email = "yuhangyan@link.cuhk.edu.cn"
+location = "香港中文大学（深圳）"
+location_url = "https://www.cuhk.edu.cn"
 location_details = [
-  "理科楼 123 室，",
-  "大学路，城市，国家"
+  "香港中文大学（深圳）"
 ]
+github = "https://github.com/Ireliya"
+linkedin = "https://www.linkedin.com/in/yuhang-yan-487146283/"
+
+# 访客地图（可选）
+# 示例（ClustrMaps）：
+# visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=YOUR_TOKEN"></script>"""
+visitor_stats_html = ""
 
 [[navigation]]
 title = "关于我"

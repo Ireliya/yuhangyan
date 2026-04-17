@@ -1,0 +1,15 @@
+[[education]]
+school = "香港中文大学（深圳）"
+degree = "哲学硕士（M.Phil.）"
+major = "计算机与信息工程"
+start = "2025.09"
+end = "2027.07"
+logo = "/education/cuhksz.png"
+
+[[education]]
+school = "利物浦大学"
+degree = "工学学士（B.Eng.）"
+major = "数据科学与大数据技术（一等荣誉学位）"
+start = "2021.09"
+end = "2025.07"
+logo = "/education/xjtlu.png"
