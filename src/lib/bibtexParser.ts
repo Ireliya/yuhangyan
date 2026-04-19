@@ -84,13 +84,15 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       doi: tags.doi,
       url: tags.url,
       code: tags.code,
+      codeStars: tags.code_stars ? parseInt(tags.code_stars, 10) : undefined,
+      dataset: tags.dataset,
+      pdfUrl: tags.pdf,
       abstract: cleanBibTeXString(tags.abstract),
       description: cleanBibTeXString(tags.description || tags.note),
       selected,
       preview,
 
-      // Store original BibTeX (excluding custom fields)
-      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code']),
+      // BibTeX display is intentionally disabled in UI; keep payload minimal.
     };
 
     // Clean up undefined fields
@@ -287,29 +289,3 @@ function detectResearchArea(title: string, keywords: string[]): ResearchArea {
 
   return 'machine-learning';
 }
-
-function reconstructBibTeX(entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, excludeFields: string[] = []): string {
-  const { entryType, citationKey, entryTags } = entry;
-
-  let bibtex = `@${entryType}{${citationKey},\n`;
-
-  Object.entries(entryTags).forEach(([key, value]) => {
-    // Skip excluded fields
-    if (!excludeFields.includes(key.toLowerCase())) {
-      let cleanValue = value;
-
-      // Clean author field by removing # and * symbols
-      if (key.toLowerCase() === 'author') {
-        cleanValue = value.replace(/[#*]/g, '');
-      }
-
-      bibtex += `  ${key} = {${cleanValue}},\n`;
-    }
-  });
-
-  // Remove trailing comma and newline
-  bibtex = bibtex.slice(0, -2) + '\n';
-  bibtex += '}';
-
-  return bibtex;
-} 
