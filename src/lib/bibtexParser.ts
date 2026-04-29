@@ -198,11 +198,11 @@ function parseAuthors(authorsStr: string, highlightNames: string[]): Array<{ nam
       // Check for corresponding author marker
       const isCorresponding = name.includes('*');
 
-      // Check for co-author marker (#)
-      const isCoAuthor = name.includes('#');
+      // Co-first author marker: † (preferred), # (legacy)
+      const isCoAuthor = name.includes('†') || name.includes('#');
 
       // Remove special markers from name
-      name = name.replace(/[*#]/g, '');
+      name = name.replace(/[*#†]/g, '');
 
       // Handle "Last, First" format
       if (name.includes(',')) {
