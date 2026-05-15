@@ -35,6 +35,20 @@ const monthMapping: Record<string, number> = {
   dec: 12, december: 12,
 };
 
+function isZhLocale(locale?: string): boolean {
+  if (!locale) return false;
+  return locale.trim().replace('_', '-').toLowerCase().startsWith('zh');
+}
+
+function pickLocalizedDescription(tags: Record<string, string>, locale?: string): string | undefined {
+  const zhRaw = tags.description_zh ?? tags.Description_zh;
+  const enRaw = tags.description ?? tags.note ?? tags.Description ?? tags.Note;
+  if (isZhLocale(locale) && zhRaw) {
+    return zhRaw;
+  }
+  return enRaw;
+}
+
 export function parseBibTeX(bibtexContent: string, locale?: string): Publication[] {
   const highlightNames = getHighlightNames(locale);
   const entries = bibtexParse.toJSON(bibtexContent);
@@ -88,7 +102,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       dataset: tags.dataset,
       pdfUrl: tags.pdf,
       abstract: cleanBibTeXString(tags.abstract),
-      description: cleanBibTeXString(tags.description || tags.note),
+      description: cleanBibTeXString(pickLocalizedDescription(tags, locale)),
       selected,
       preview,
 
