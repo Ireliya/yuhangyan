@@ -92,23 +92,19 @@ function buildLocalizedConfigMaps(
 ): {
   navigationByLocale: Record<string, SiteConfig['navigation']>;
   siteTitleByLocale: Record<string, string>;
-  lastUpdatedByLocale: Record<string, string | undefined>;
 } {
   const navigationByLocale: Record<string, SiteConfig['navigation']> = {};
   const siteTitleByLocale: Record<string, string> = {};
-  const lastUpdatedByLocale: Record<string, string | undefined> = {};
 
   for (const locale of locales) {
     const localizedConfig = getConfig(locale);
     navigationByLocale[locale] = localizedConfig.navigation;
     siteTitleByLocale[locale] = localizedConfig.site.title;
-    lastUpdatedByLocale[locale] = localizedConfig.site.last_updated;
   }
 
   return {
     navigationByLocale,
     siteTitleByLocale,
-    lastUpdatedByLocale,
   };
 }
 
@@ -121,11 +117,9 @@ export default function RootLayout({
   const runtimeI18n = getRuntimeI18nConfig(config.i18n);
   const targetLocales = runtimeI18n.enabled ? runtimeI18n.locales : [runtimeI18n.defaultLocale];
 
-  const {
-    navigationByLocale,
-    siteTitleByLocale,
-    lastUpdatedByLocale,
-  } = buildLocalizedConfigMaps(targetLocales);
+  const { navigationByLocale, siteTitleByLocale } = buildLocalizedConfigMaps(targetLocales);
+
+  const deployedAtMs = Date.now();
 
   return (
     <html lang={runtimeI18n.defaultLocale} className="scroll-smooth" suppressHydrationWarning>
@@ -180,11 +174,7 @@ export default function RootLayout({
             <main className="min-h-screen pt-16 lg:pt-20">
               {children}
             </main>
-            <Footer
-              lastUpdated={config.site.last_updated}
-              lastUpdatedByLocale={lastUpdatedByLocale}
-              defaultLocale={runtimeI18n.defaultLocale}
-            />
+            <Footer deployedAtMs={deployedAtMs} />
           </LocaleProvider>
         </ThemeProvider>
       </body>
