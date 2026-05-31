@@ -18,9 +18,8 @@ github = "https://github.com/Ireliya"
 linkedin = "https://www.linkedin.com/in/yuhang-yan-487146283/"
 
 # 访客地图（可选）
-# 示例（ClustrMaps）：
-# visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=YOUR_TOKEN"></script>"""
-visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="https://clustrmaps.com/map_v2.js?d=a9KRY_y4Z6TnXPkxYwWMFD3qvUnk1gvDopSWX9vJBJw&cl=ffffff&w=a"></script>"""
+# 示例（ClustrMaps 图片嵌入，静态站点比 JS 脚本更稳定）：
+visitor_stats_html = """<a href="https://clustrmaps.com/" target="_blank" rel="noopener noreferrer" title="Visitor map"><img src="https://clustrmaps.com/map_v2.png?d=a9KRY_y4Z6TnXPkxYwWMFD3qvUnk1gvDopSWX9vJBJw&cl=ffffff" alt="Visitor map" loading="lazy" style="width:100%;max-width:100%;height:auto;display:block;margin:0 auto;" /></a>"""
 
 [[navigation]]
 title = "关于我"

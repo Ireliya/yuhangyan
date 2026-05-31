@@ -36,6 +36,85 @@ interface ProfileProps {
     researchInterests?: string[];
 }
 
+function extractClustrmapsDataKey(html: string): string | null {
+    const match = html.match(/[?&]d=([^&"'\\s]+)/);
+    return match?.[1] ?? null;
+}
+
+function appendClustrmapsImageFallback(container: HTMLElement, dataKey: string) {
+    if (container.querySelector('[data-clustrmaps-fallback="true"]')) {
+        return;
+    }
+
+    const link = document.createElement('a');
+    link.href = 'https://clustrmaps.com/';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.title = 'Visitor map';
+    link.dataset.clustrmapsFallback = 'true';
+
+    const img = document.createElement('img');
+    img.src = `https://clustrmaps.com/map_v2.png?d=${dataKey}&cl=ffffff`;
+    img.alt = 'Visitor map';
+    img.loading = 'lazy';
+    img.style.width = '100%';
+    img.style.maxWidth = '100%';
+    img.style.height = 'auto';
+    img.style.display = 'block';
+    img.style.margin = '0 auto';
+
+    link.appendChild(img);
+    container.appendChild(link);
+}
+
+function mountVisitorStatsWidget(container: HTMLElement, visitorHtml: string) {
+    container.innerHTML = '';
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = visitorHtml;
+
+    const dataKey = extractClustrmapsDataKey(visitorHtml);
+    let scriptInjected = false;
+
+    for (const node of Array.from(wrapper.childNodes)) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+            const el = node as HTMLElement;
+            if (el.tagName.toLowerCase() === 'script') {
+                const scriptEl = el as HTMLScriptElement;
+                const newScript = document.createElement('script');
+                for (const { name, value } of Array.from(scriptEl.attributes)) {
+                    newScript.setAttribute(name, value);
+                }
+                if (scriptEl.textContent) {
+                    newScript.textContent = scriptEl.textContent;
+                }
+
+                if (dataKey) {
+                    newScript.onerror = () => appendClustrmapsImageFallback(container, dataKey);
+                }
+
+                container.appendChild(newScript);
+                scriptInjected = true;
+                continue;
+            }
+        }
+        container.appendChild(node.cloneNode(true));
+    }
+
+    if (scriptInjected && dataKey) {
+        window.setTimeout(() => {
+            const hasRenderedContent =
+                container.querySelector('iframe') ||
+                container.querySelector('img') ||
+                container.querySelector('a');
+
+            if (!hasRenderedContent) {
+                appendClustrmapsImageFallback(container, dataKey);
+            }
+        }, 4000);
+    }
+}
+
 export default function Profile({ author, social, features, researchInterests }: ProfileProps) {
     const messages = useMessages();
     const locale = useLocaleStore((state) => state.locale);
@@ -67,34 +146,9 @@ export default function Profile({ author, social, features, researchInterests }:
     // React does not execute <script> tags inserted via innerHTML after the initial page load.
     useEffect(() => {
         const container = visitorContainerRef.current;
-        if (!container) return;
+        if (!container || !visitorHtml) return;
 
-        container.innerHTML = '';
-
-        if (!visitorHtml) return;
-
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = visitorHtml;
-
-        const nodes = Array.from(wrapper.childNodes);
-        for (const node of nodes) {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-                const el = node as HTMLElement;
-                if (el.tagName.toLowerCase() === 'script') {
-                    const scriptEl = el as HTMLScriptElement;
-                    const newScript = document.createElement('script');
-                    for (const { name, value } of Array.from(scriptEl.attributes)) {
-                        newScript.setAttribute(name, value);
-                    }
-                    if (scriptEl.textContent) {
-                        newScript.textContent = scriptEl.textContent;
-                    }
-                    container.appendChild(newScript);
-                    continue;
-                }
-            }
-            container.appendChild(node.cloneNode(true));
-        }
+        mountVisitorStatsWidget(container, visitorHtml);
 
         return () => {
             container.innerHTML = '';
@@ -405,7 +459,8 @@ export default function Profile({ author, social, features, researchInterests }:
                 <h3 className="font-semibold text-primary mb-3">{messages.profile.visitorStatistics}</h3>
                 {visitorHtml ? (
                     <div
-                        className="w-full overflow-hidden rounded-md bg-white/60 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-700"
+                        id="visitor-stats-widget"
+                        className="visitor-stats-widget w-full min-h-[120px] rounded-md bg-white/60 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-700 flex justify-center py-2"
                         ref={visitorContainerRef}
                     />
                 ) : (

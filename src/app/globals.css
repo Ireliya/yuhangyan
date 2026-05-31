@@ -253,3 +253,10 @@ body {
   /* Soften card borders in dark mode only */
   border-color: rgba(148, 163, 184, 0.24);
 }
+
+/* ClustrMaps widget (script embed injects a large iframe) */
+.visitor-stats-widget iframe {
+  max-width: 100%;
+  transform: scale(0.72);
+  transform-origin: top center;
+}
