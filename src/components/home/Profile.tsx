@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
@@ -15,7 +15,6 @@ import { Github, Linkedin, Pin } from 'lucide-react';
 import type { SiteConfig } from '@/lib/config';
 import { useMessages } from '@/lib/i18n/useMessages';
 import { withBasePath } from '@/lib/basePath';
-import { useLocaleStore } from '@/lib/stores/localeStore';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -36,83 +35,8 @@ interface ProfileProps {
     researchInterests?: string[];
 }
 
-function extractClustrmapsDataKey(html: string): string | null {
-    const match = html.match(/[?&]d=([^&"'\\s]+)/);
-    return match?.[1] ?? null;
-}
-
-function buildClustrmapsScriptUrls(dataKey: string): string[] {
-    return [
-        `https://cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=${dataKey}`,
-        `https://clustrmaps.com/map_v2.js?d=${dataKey}&cl=ffffff&w=a`,
-    ];
-}
-
-function injectClustrmapsScript(container: HTMLElement, src: string, onFail?: () => void) {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.id = 'clustrmaps';
-    script.src = src;
-    script.async = true;
-    script.onerror = () => onFail?.();
-    container.appendChild(script);
-}
-
-function mountVisitorStatsWidget(container: HTMLElement, visitorHtml: string) {
-    container.innerHTML = '';
-
-    const dataKey = extractClustrmapsDataKey(visitorHtml);
-    const isScriptEmbed = /<script/i.test(visitorHtml);
-
-    if (isScriptEmbed && dataKey) {
-        const scriptUrls = buildClustrmapsScriptUrls(dataKey);
-
-        const tryLoadScript = (index: number) => {
-            if (index >= scriptUrls.length) return;
-
-            const src = scriptUrls[index];
-            injectClustrmapsScript(container, src, () => {
-                container.querySelector(`script[src="${src}"]`)?.remove();
-                tryLoadScript(index + 1);
-            });
-        };
-
-        tryLoadScript(0);
-        return;
-    }
-
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = visitorHtml;
-
-    for (const node of Array.from(wrapper.childNodes)) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-            const el = node as HTMLElement;
-            if (el.tagName.toLowerCase() === 'script') {
-                const scriptEl = el as HTMLScriptElement;
-                const newScript = document.createElement('script');
-                for (const { name, value } of Array.from(scriptEl.attributes)) {
-                    newScript.setAttribute(name, value);
-                }
-                if (scriptEl.textContent) {
-                    newScript.textContent = scriptEl.textContent;
-                }
-                newScript.async = true;
-                container.appendChild(newScript);
-                continue;
-            }
-        }
-        container.appendChild(node.cloneNode(true));
-    }
-}
-
 export default function Profile({ author, social, features, researchInterests }: ProfileProps) {
     const messages = useMessages();
-    const locale = useLocaleStore((state) => state.locale);
-    const visitorStatsHtml = (social as Record<string, unknown>)?.visitor_stats_html;
-    const visitorContainerRef = useRef<HTMLDivElement | null>(null);
-    const visitorHtml = useMemo(() => {
-        return typeof visitorStatsHtml === 'string' ? visitorStatsHtml.trim() : '';
-    }, [visitorStatsHtml]);
 
     const [hasLiked, setHasLiked] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
@@ -131,19 +55,6 @@ export default function Profile({ author, social, features, researchInterests }:
             setHasLiked(true);
         }
     }, [features.enable_likes]);
-
-    // Re-inject visitor widget scripts on locale switch.
-    // React does not execute <script> tags inserted via innerHTML after the initial page load.
-    useEffect(() => {
-        const container = visitorContainerRef.current;
-        if (!container || !visitorHtml) return;
-
-        mountVisitorStatsWidget(container, visitorHtml);
-
-        return () => {
-            container.innerHTML = '';
-        };
-    }, [visitorHtml, locale]);
 
     const handleLike = () => {
         const newLikedState = !hasLiked;
@@ -444,29 +355,6 @@ export default function Profile({ author, social, features, researchInterests }:
                 </div>
             )}
 
-            {/* Visitor Statistics */}
-            <div className="mt-6 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 hover:shadow-lg transition-all duration-200">
-                <h3 className="font-semibold text-primary mb-3">{messages.profile.visitorStatistics}</h3>
-                {visitorHtml ? (
-                    <div
-                        id="visitor-stats-widget"
-                        className="visitor-stats-widget w-full min-h-[120px] rounded-md bg-white/60 dark:bg-neutral-900/40 border border-neutral-200 dark:border-neutral-700 flex justify-center py-2"
-                        ref={visitorContainerRef}
-                    />
-                ) : (
-                    <div className="text-sm text-neutral-600 dark:text-neutral-500">
-                        {messages.profile.visitorStatisticsHint}{' '}
-                        <a
-                            className="text-accent underline underline-offset-4 decoration-accent/50 hover:decoration-accent"
-                            href="https://clustrmaps.com/how-to/how-to-install-a-wordpress-visitor-counter/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            ClustrMaps
-                        </a>
-                    </div>
-                )}
-            </div>
         </motion.div>
     );
 }

@@ -23,9 +23,6 @@ orcid = "https://orcid.org"
 github = "https://github.com/Ireliya"
 linkedin = "https://www.linkedin.com/in/yuhang-yan-487146283/"
 
-# Visitor map widget (optional) — ClustrMaps dynamic map
-visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=a9KRY_y4Z6TnXPkxYwWMFD3qvUnk1gvDopSWX9vJBJw"></script>"""
-
 [features]
 # Show a like button on the about page
 enable_likes = false

@@ -22,8 +22,6 @@ export interface LocaleMessages {
     send: string;
     sendEmail: string;
     researchInterests: string;
-    visitorStatistics: string;
-    visitorStatisticsHint: string;
     like: string;
     liked: string;
     thanks: string;
@@ -76,8 +74,6 @@ const en: LocaleMessages = {
     send: 'Send',
     sendEmail: 'Send Email',
     researchInterests: 'Research Interests',
-    visitorStatistics: 'Visitor Statistics',
-    visitorStatisticsHint: 'Paste your visitor map embed code in content/config.toml to enable this widget.',
     like: 'Like',
     liked: 'Liked',
     thanks: 'Thanks!',
@@ -130,8 +126,6 @@ const zh: LocaleMessages = {
     send: '发送',
     sendEmail: '发送邮件',
     researchInterests: '研究兴趣',
-    visitorStatistics: '访客统计',
-    visitorStatisticsHint: '在 content/config.toml 中粘贴访客地图的嵌入代码后即可显示。',
     like: '点赞',
     liked: '已点赞',
     thanks: '感谢支持！',

@@ -17,9 +17,6 @@ location_details = [
 github = "https://github.com/Ireliya"
 linkedin = "https://www.linkedin.com/in/yuhang-yan-487146283/"
 
-# 访客地图（可选）— ClustrMaps 动态地图
-visitor_stats_html = """<script type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=a9KRY_y4Z6TnXPkxYwWMFD3qvUnk1gvDopSWX9vJBJw"></script>"""
-
 [[navigation]]
 title = "关于我"
 type = "page"
