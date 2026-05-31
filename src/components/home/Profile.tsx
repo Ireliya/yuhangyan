@@ -41,40 +41,48 @@ function extractClustrmapsDataKey(html: string): string | null {
     return match?.[1] ?? null;
 }
 
-function appendClustrmapsImageFallback(container: HTMLElement, dataKey: string) {
-    if (container.querySelector('[data-clustrmaps-fallback="true"]')) {
-        return;
-    }
+function buildClustrmapsScriptUrls(dataKey: string): string[] {
+    return [
+        `https://cdn.clustrmaps.com/map_v2.js?cl=ffffff&w=a&t=n&d=${dataKey}`,
+        `https://clustrmaps.com/map_v2.js?d=${dataKey}&cl=ffffff&w=a`,
+    ];
+}
 
-    const link = document.createElement('a');
-    link.href = 'https://clustrmaps.com/';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.title = 'Visitor map';
-    link.dataset.clustrmapsFallback = 'true';
-
-    const img = document.createElement('img');
-    img.src = `https://clustrmaps.com/map_v2.png?d=${dataKey}&cl=ffffff`;
-    img.alt = 'Visitor map';
-    img.loading = 'lazy';
-    img.style.width = '100%';
-    img.style.maxWidth = '100%';
-    img.style.height = 'auto';
-    img.style.display = 'block';
-    img.style.margin = '0 auto';
-
-    link.appendChild(img);
-    container.appendChild(link);
+function injectClustrmapsScript(container: HTMLElement, src: string, onFail?: () => void) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.id = 'clustrmaps';
+    script.src = src;
+    script.async = true;
+    script.onerror = () => onFail?.();
+    container.appendChild(script);
 }
 
 function mountVisitorStatsWidget(container: HTMLElement, visitorHtml: string) {
     container.innerHTML = '';
 
+    const dataKey = extractClustrmapsDataKey(visitorHtml);
+    const isScriptEmbed = /<script/i.test(visitorHtml);
+
+    if (isScriptEmbed && dataKey) {
+        const scriptUrls = buildClustrmapsScriptUrls(dataKey);
+
+        const tryLoadScript = (index: number) => {
+            if (index >= scriptUrls.length) return;
+
+            const src = scriptUrls[index];
+            injectClustrmapsScript(container, src, () => {
+                container.querySelector(`script[src="${src}"]`)?.remove();
+                tryLoadScript(index + 1);
+            });
+        };
+
+        tryLoadScript(0);
+        return;
+    }
+
     const wrapper = document.createElement('div');
     wrapper.innerHTML = visitorHtml;
-
-    const dataKey = extractClustrmapsDataKey(visitorHtml);
-    let scriptInjected = false;
 
     for (const node of Array.from(wrapper.childNodes)) {
         if (node.nodeType === Node.ELEMENT_NODE) {
@@ -88,30 +96,12 @@ function mountVisitorStatsWidget(container: HTMLElement, visitorHtml: string) {
                 if (scriptEl.textContent) {
                     newScript.textContent = scriptEl.textContent;
                 }
-
-                if (dataKey) {
-                    newScript.onerror = () => appendClustrmapsImageFallback(container, dataKey);
-                }
-
+                newScript.async = true;
                 container.appendChild(newScript);
-                scriptInjected = true;
                 continue;
             }
         }
         container.appendChild(node.cloneNode(true));
-    }
-
-    if (scriptInjected && dataKey) {
-        window.setTimeout(() => {
-            const hasRenderedContent =
-                container.querySelector('iframe') ||
-                container.querySelector('img') ||
-                container.querySelector('a');
-
-            if (!hasRenderedContent) {
-                appendClustrmapsImageFallback(container, dataKey);
-            }
-        }, 4000);
     }
 }
 

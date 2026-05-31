@@ -254,7 +254,11 @@ body {
   border-color: rgba(148, 163, 184, 0.24);
 }
 
-/* ClustrMaps widget (script embed injects a large iframe) */
+/* ClustrMaps dynamic widget */
+.visitor-stats-widget {
+  overflow: visible;
+}
+
 .visitor-stats-widget iframe {
   max-width: 100%;
   transform: scale(0.72);
