@@ -2,11 +2,6 @@ type = "about"
 title = "关于我"
 
 [profile]
-research_interests = [
-  "城市智能与空间数据分析",
-  "空间智能",
-  "遥感感知与空间推理"
-]
 
 [[sections]]
 id = "about"

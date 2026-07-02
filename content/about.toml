@@ -2,11 +2,6 @@ type = "about"
 title = "About"
 
 [profile]
-research_interests = [
-  "Urban Intelligence & Spatial Data Analytics",
-  "Spatial Intelligence",
-  "Remote Sensing Perception & Spatial Reasoning"
-]
 
 [[sections]]
 id = "about"
@@ -32,4 +27,3 @@ id = "news"
 type = "list"
 title = "News"
 source = "news.toml"
-
