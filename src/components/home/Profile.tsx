@@ -15,6 +15,7 @@ import { Github, Linkedin, Pin } from 'lucide-react';
 import type { SiteConfig } from '@/lib/config';
 import { useMessages } from '@/lib/i18n/useMessages';
 import { withBasePath } from '@/lib/basePath';
+import VisitorMap from '@/components/home/VisitorMap';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -303,9 +304,11 @@ export default function Profile({ author, social, features }: ProfileProps) {
                 })}
             </div>
 
+            <VisitorMap />
+
             {/* Like Button */}
             {features.enable_likes && (
-                <div className="flex justify-center">
+                <div className="mt-6 flex justify-center">
                     <div className="relative">
                         <motion.button
                             onClick={handleLike}
