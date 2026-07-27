@@ -18,7 +18,7 @@ location_url = "https://www.cuhk.edu.cn"
 location_details = [
   "The Chinese University of Hong Kong, Shenzhen"
 ]
-google_scholar = "https://scholar.google.com"
+google_scholar = "https://scholar.google.com/citations?hl=zh-CN&user=RUo6lQMAAAAJ&view_op=list_works&gmla=AO4B3jvZwSxTepYkbUuNHaCrvWZwu3tJept51wA_KPiIjkX_oWONv_TN9Jau0D5v3jhjQtmSmBs0fjvtZMX-pIVC4Tf3LATEUT5TCN60lpE"
 orcid = "https://orcid.org"
 github = "https://github.com/Ireliya"
 linkedin = "https://www.linkedin.com/in/yuhang-yan-487146283/"
