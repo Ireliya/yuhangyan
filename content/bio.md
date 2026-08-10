@@ -2,4 +2,6 @@ Hi! I'm from **[Enshi, Hubei Province](https://zh.wikipedia.org/wiki/%E6%81%A9%E
 
 I am a Master's student at The Chinese University of Hong Kong, Shenzhen.
 
-I was advised by **Dr. [Siqi Huang](https://scholar.xjtlu.edu.cn/en/persons/SiqiHuang/)** during my undergraduate studies, and I am currently supervised by **Dr. [Qing Yu Li](https://lqycrystal.github.io/qingyuli.github.io/)** for my Master's program. My research focuses on Earth observation, remote sensing reasoning agents, multimodal remote sensing vision-language models, and reliable GeoAI for environmental and disaster applications.
+I was advised by **Dr. [Siqi Huang](https://scholar.xjtlu.edu.cn/en/persons/SiqiHuang/)** during my undergraduate studies, and I am currently supervised by **Dr. [Qing Yu Li](https://lqycrystal.github.io/qingyuli.github.io/)** for my Master's program. My Master's research focuses on **Earth observation**.
+
+More broadly, my general research interests lie in **AI for Social Good and Science**.
