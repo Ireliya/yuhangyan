@@ -253,3 +253,138 @@ body {
   /* Soften card borders in dark mode only */
   border-color: rgba(148, 163, 184, 0.24);
 }
+
+/* Left-corner animated mascot */
+.cat-globe-mascot {
+  --mascot-width: clamp(19rem, 25vw, 22rem);
+  position: fixed;
+  z-index: 30;
+  left: max(1rem, calc((100vw - 72rem) / 2 + 0.35rem));
+  bottom: 0.6rem;
+  width: var(--mascot-width);
+  aspect-ratio: 5 / 3;
+  pointer-events: none;
+  user-select: none;
+  isolation: isolate;
+  filter: drop-shadow(0 14px 22px rgba(15, 23, 42, 0.28));
+}
+
+.cat-globe-orbit {
+  position: absolute;
+  left: 0.6rem;
+  bottom: 2rem;
+  width: 8.3rem;
+  height: 3.2rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  border-radius: 50%;
+  transform: rotate(-12deg);
+  opacity: 0.5;
+  mask-image: linear-gradient(to right, transparent 3%, black 35%, black 68%, transparent 97%);
+}
+
+.cat-globe-earth {
+  position: absolute;
+  z-index: 1;
+  left: 0.35rem;
+  top: 3.8rem;
+  width: 7.15rem;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 27%, rgba(145, 231, 255, 0.9) 0 4%, transparent 19%),
+    radial-gradient(circle at 38% 34%, #3aa7ed 0%, #136fca 52%, #06366f 100%);
+  box-shadow:
+    inset -1.25rem -0.6rem 1.6rem rgba(1, 13, 39, 0.63),
+    inset 0.45rem 0.35rem 0.8rem rgba(205, 246, 255, 0.24),
+    0 0 0 1px rgba(190, 233, 255, 0.34),
+    0 0 1.7rem rgba(42, 148, 239, 0.32);
+  animation: cat-globe-float 4.8s ease-in-out infinite;
+}
+
+.cat-globe-map {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 240%;
+  height: 100%;
+  animation: cat-globe-spin 11s linear infinite;
+}
+
+.cat-globe-land {
+  fill: #76b765;
+  stroke: rgba(207, 237, 145, 0.52);
+  stroke-width: 0.85;
+  filter: drop-shadow(0 1px 1px rgba(0, 34, 32, 0.28));
+}
+
+.cat-globe-clouds {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.62);
+  stroke-width: 4.2;
+  stroke-linecap: round;
+  filter: blur(1px);
+}
+
+.cat-globe-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0.28), transparent 27%),
+    radial-gradient(circle at 75% 63%, transparent 45%, rgba(3, 20, 52, 0.4) 100%);
+}
+
+.cat-globe-cat {
+  position: absolute;
+  z-index: 2;
+  right: -0.2rem;
+  bottom: -0.1rem;
+  width: 17.4rem;
+  transform-origin: 78% 76%;
+  animation: cat-globe-lick 1.12s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.cat-globe-cat-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes cat-globe-spin {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes cat-globe-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-0.22rem) rotate(1deg); }
+}
+
+@keyframes cat-globe-lick {
+  0%, 28%, 100% { transform: translateX(0) rotate(0); }
+  42% { transform: translateX(-0.35rem) rotate(-0.55deg); }
+  56% { transform: translateX(-0.12rem) rotate(-0.18deg); }
+  67% { transform: translateX(-0.34rem) rotate(-0.5deg); }
+  80% { transform: translateX(0) rotate(0); }
+}
+
+@media (max-width: 1023px) {
+  .cat-globe-mascot {
+    display: none;
+  }
+}
+
+@media (max-height: 680px) {
+  .cat-globe-mascot {
+    --mascot-width: 17.5rem;
+    opacity: 0.92;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-globe-earth,
+  .cat-globe-map,
+  .cat-globe-cat {
+    animation: none;
+  }
+}
