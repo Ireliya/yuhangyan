@@ -40,9 +40,19 @@ function isZhLocale(locale?: string): boolean {
   return locale.trim().replace('_', '-').toLowerCase().startsWith('zh');
 }
 
-function pickLocalizedDescription(tags: Record<string, string>, locale?: string): string | undefined {
-  const zhRaw = tags.description_zh ?? tags.Description_zh;
-  const enRaw = tags.description ?? tags.note ?? tags.Description ?? tags.Note;
+function pickLocalizedField(
+  tags: Record<string, string>,
+  fieldName: string,
+  locale?: string,
+  fallbackFieldNames: string[] = []
+): string | undefined {
+  const titleCaseFieldName = fieldName.charAt(0).toUpperCase() + fieldName.slice(1);
+  const zhRaw = tags[`${fieldName}_zh`] ?? tags[`${titleCaseFieldName}_zh`];
+  const enRaw =
+    tags[fieldName] ??
+    tags[titleCaseFieldName] ??
+    fallbackFieldNames.map((fallback) => tags[fallback]).find(Boolean);
+
   if (isZhLocale(locale) && zhRaw) {
     return zhRaw;
   }
@@ -101,8 +111,8 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       codeStars: tags.code_stars ? parseInt(tags.code_stars, 10) : undefined,
       dataset: tags.dataset,
       pdfUrl: tags.pdf,
-      abstract: cleanBibTeXString(tags.abstract),
-      description: cleanBibTeXString(pickLocalizedDescription(tags, locale)),
+      abstract: cleanBibTeXString(pickLocalizedField(tags, 'abstract', locale)),
+      description: cleanBibTeXString(pickLocalizedField(tags, 'description', locale, ['note', 'Note'])),
       selected,
       preview,
 
