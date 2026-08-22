@@ -6,17 +6,17 @@ favicon = "/favicon.svg"
 [author]
 name = "Yuhang Yan"
 title = "Master's Student"
-institution = "The Chinese University of Hong Kong, Shenzhen"
+institution = "The Chinese University of Hong Kong"
 avatar = "/yyh.jpg"
 
 [social]
 # Contact information (leave blank or delete to hide)
 
 email = "yuhangyan@link.cuhk.edu.cn"
-location = "The Chinese University of Hong Kong, Shenzhen"
+location = "The Chinese University of Hong Kong"
 location_url = "https://www.cuhk.edu.cn"
 location_details = [
-  "The Chinese University of Hong Kong, Shenzhen"
+  "The Chinese University of Hong Kong"
 ]
 google_scholar = "https://scholar.google.com/citations?hl=zh-CN&user=RUo6lQMAAAAJ&view_op=list_works&gmla=AO4B3jvZwSxTepYkbUuNHaCrvWZwu3tJept51wA_KPiIjkX_oWONv_TN9Jau0D5v3jhjQtmSmBs0fjvtZMX-pIVC4Tf3LATEUT5TCN60lpE"
 orcid = "https://orcid.org"

@@ -24,6 +24,9 @@ export interface LocaleMessages {
     like: string;
     liked: string;
     thanks: string;
+    petTitle: string;
+    petDescription: string;
+    petAlt: string;
   };
   home: {
     about: string;
@@ -75,6 +78,9 @@ const en: LocaleMessages = {
     like: 'Like',
     liked: 'Liked',
     thanks: 'Thanks!',
+    petTitle: 'Lele',
+    petDescription: 'This is my pet family member, a silver shaded kitten named Lele.',
+    petAlt: 'Lele, a silver shaded kitten',
   },
   home: {
     about: 'About',
@@ -126,6 +132,9 @@ const zh: LocaleMessages = {
     like: '点赞',
     liked: '已点赞',
     thanks: '感谢支持！',
+    petTitle: 'Lele',
+    petDescription: '这是我的宠物家人，一只叫 Lele 的银渐层小猫。',
+    petAlt: '银渐层小猫 Lele',
   },
   home: {
     about: '关于我',
