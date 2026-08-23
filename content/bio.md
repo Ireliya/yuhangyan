@@ -2,6 +2,6 @@ Hi! I'm from **[Enshi, Hubei Province](https://zh.wikipedia.org/wiki/%E6%81%A9%E
 
 I am a Master's student at The Chinese University of Hong Kong.
 
-I am currently supervised by **Dr. [Qing Yu Li](https://lqycrystal.github.io/qingyuli.github.io/)** for my Master's program. My Master's research focuses on **Earth observation**.
+I am currently supervised by **Dr. [Qing Yu Li](https://lqycrystal.github.io/qingyuli.github.io/)** for my Master's program. My Master's research focuses on **vision-language models and agents for Earth observation**.
 
 More broadly, my general research interests lie in **AI for Social Good and Science**.

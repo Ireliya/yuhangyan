@@ -2,6 +2,6 @@ Hiiii! 我来自[**湖北省恩施**](https://zh.wikipedia.org/wiki/%E6%81%A9%E6
 
 我目前是香港中文大学（深圳）硕士研究生。
 
-我目前在 [**李清玉教授**](https://lqycrystal.github.io/qingyuli.github.io/) 的指导下开展硕士阶段研究。我的硕士研究方向是**地球观测**。
+我目前在 [**李清玉教授**](https://lqycrystal.github.io/qingyuli.github.io/) 的指导下开展硕士阶段研究。我的硕士研究方向是**面向地球观测的视觉语言模型与智能体**。
 
 总体而言，我的研究兴趣是**面向社会公益与科学的人工智能（AI for Social Good and Science）**。
