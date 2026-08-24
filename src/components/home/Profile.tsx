@@ -306,28 +306,6 @@ export default function Profile({ author, social, features }: ProfileProps) {
 
             <VisitorMap />
 
-            <div className="mt-6 px-2">
-                <div className="mx-auto max-w-[280px] overflow-hidden rounded-xl border border-neutral-200 bg-white/80 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900/60">
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-                        <Image
-                            src={withBasePath('/cat.jpg')}
-                            alt={messages.profile.petAlt}
-                            fill
-                            sizes="280px"
-                            className="object-cover"
-                        />
-                    </div>
-                    <div className="px-4 py-3 text-center">
-                        <p className="text-sm font-semibold text-primary">
-                            {messages.profile.petTitle}
-                        </p>
-                        <p className="mt-1 text-xs leading-relaxed text-neutral-600 dark:text-neutral-400">
-                            {messages.profile.petDescription}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
             {/* Like Button */}
             {features.enable_likes && (
                 <div className="mt-6 flex justify-center">
