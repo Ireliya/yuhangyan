@@ -63,7 +63,10 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
   const highlightNames = getHighlightNames(locale);
   const entries = bibtexParse.toJSON(bibtexContent);
 
-  return entries.map((entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, index: number) => {
+  return entries.filter((entry: { entryTags: Record<string, string> }) => {
+    const hidden = entry.entryTags.hidden === 'true' || entry.entryTags.hidden === 'yes';
+    return !hidden;
+  }).map((entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, index: number) => {
     const tags = entry.entryTags;
 
     // Parse authors
